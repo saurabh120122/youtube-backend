@@ -4,8 +4,16 @@ import connectDB from "./db/index.js";
 dotenv.config({
     path:'./env'
 })
-connectDB();
-
+connectDB()
+.then(()=> {
+    app.listen(process.env.PORT || 8000,()=>{
+        console.log(`Database connected successfully and running at ${process.env.PORT}`);
+    })
+})
+.catch((error) => {
+    console.error("Error connecting to the database:", error);
+    process.exit(1);
+});
 /*(async()=>{
     try {
         await mongoose.connect('${process.env.MONGO_URI}/${DB_NAME}')

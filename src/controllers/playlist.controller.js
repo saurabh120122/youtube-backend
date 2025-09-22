@@ -4,6 +4,7 @@ import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
 import {Video} from "../models/video.model.js"
+import { User } from "../models/user.model.js"
 const createPlaylist = asyncHandler(async (req, res) => {
     const {name, description} = req.body
     if (
@@ -35,6 +36,10 @@ const getUserPlaylists = asyncHandler(async (req, res) => {
     const {userId} = req.params
     if (!mongoose.Types.ObjectId.isValid(userId)) {
         throw new ApiError(400, "Invalid User ID");
+    }
+    const user = await User.findById(userId)
+    if(!user){
+        throw new ApiError(404, "User not found")
     }
     const playlists=await Playlist.find({owner:userId})
     return res

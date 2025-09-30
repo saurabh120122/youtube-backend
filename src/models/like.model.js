@@ -11,10 +11,11 @@ const likeSchema=new Schema(
         },
         tweet:{
             type:Schema.Types.ObjectId,
-            ref:"tweet"
+            ref:"Tweet"
         },
         likedBy:{
             type:Schema.Types.ObjectId,
+            required:true,
             ref:"User"
         }
     },
